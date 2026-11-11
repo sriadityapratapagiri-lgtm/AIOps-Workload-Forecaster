@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aiops-model-server
+  namespace: ML
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aiops-model-server
+  template:
+    metadata:
+      labels:
+        app: aiops-model-server
+    spec:
+      containers:
+      - name: trainer
+        image: aiops-model-server:v1.0
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "4"
+            memory: "8Gi"
+          limits:
+            cpu: "8"
+            memory: "16Gi"
+        volumeMounts:
+        - name: model-storage
+          mountPath: /app/models
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-pvc

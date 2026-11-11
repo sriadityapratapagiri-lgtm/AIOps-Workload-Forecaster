@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aiops-load-estimator
+  namespace: ML
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aiops-load-estimator
+  template:
+    metadata:
+      labels:
+        app: aiops-load-estimator
+    spec:
+      containers:
+      - name: estimator
+        image: aiops-load-estimator:v1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: "2"
+            memory: "4Gi"
+        volumeMounts:
+        - name: model-storage
+          mountPath: /app/models
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: load-estimator-service
+  namespace: ML
+spec:
+  selector:
+    app: aiops-load-estimator
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
