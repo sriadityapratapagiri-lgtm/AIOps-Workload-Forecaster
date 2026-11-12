@@ -1,0 +1,16 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source code
+COPY src/ /app/src/
+
+# Create directory for model artifacts
+RUN mkdir -p /app/models
+
+# Execute the offline training phase
+CMD ["python", "-m", "src.offline_phase.train"]

@@ -1,0 +1,14 @@
+# Environments
+venv/
+__pycache__/
+*.pyc
+
+# ML Model Weights
+models/*.pt
+*.pt
+
+# Datasets
+data/raw/*.csv
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/

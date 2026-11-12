@@ -5,7 +5,7 @@ from prometheus_client import Gauge, generate_latest
 from fastapi.responses import Response
 from src.model.aiops_trs import AIOpsTrs
 from src.data.feature_engineering import FeatureProcessor
-from src.data.prometheus_extractor import PrometheusExtractor
+from data.prometheous_extractor import PrometheusExtractor
 import asyncio
 from datetime import datetime, timedelta
 
